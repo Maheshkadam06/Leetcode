@@ -12,28 +12,44 @@ class Solution {
         
         for(int i = 0; i<V;i++){
             if(!vis[i]){
-                if(detect(i,vis,adj)) return true;
+                if(detect(i,-1,vis,adj)) return true;
             }
         }
         return false;
         
     }
-    bool detect(int src,int vis[], vector<int> adj[]){
-        vis[src] =1;
-        queue<pair<int,int>> q;
-        q.push(make_pair(src,-1));
+    // bool detect(int src,int vis[], vector<int> adj[]){
+    //     vis[src] =1;
+    //     queue<pair<int,int>> q;
+    //     q.push(make_pair(src,-1));
         
-        while(!q.empty()){
-            int node = q.front().first;
-            int parent = q.front().second;
-            q.pop();
+    //     while(!q.empty()){
+    //         int node = q.front().first;
+    //         int parent = q.front().second;
+    //         q.pop();
             
-            for(auto it: adj[node]){
-                if(!vis[it]){
-                    q.push(make_pair(it,node));
-                    vis[it] = 1;
-                }
-                else if(it != parent) return true;
+    //         for(auto it: adj[node]){
+    //             if(!vis[it]){
+    //                 q.push(make_pair(it,node));
+    //                 vis[it] = 1;
+    //             }
+    //             else if(it != parent) return true;
+    //         }
+            
+    //     }
+    //     return false;
+    // }
+    
+    // dfs
+    
+    bool detect(int node, int parent,int vis[], vector<int> adj[]){
+        vis[node] = 1;
+        for(auto it: adj[node]){
+            if(!vis[it]){
+                if(detect(it,node,vis,adj)) return true;
+            }
+            else if(it != parent){
+                return true;
             }
             
         }
