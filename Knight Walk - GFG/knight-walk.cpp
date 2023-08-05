@@ -27,16 +27,18 @@ public:
 	       int move = q.front().second;
 	       q.pop();
 	       
+	       if(row == TargetPos[0]-1 and col == TargetPos[1]-1){
+               return move;
+           }
+	       
 	       for(int i= 0;i<8;i++){
 	           int x = row + delX[i];
 	           int y = col + delY[i];
 	
 	           bool fit = x >=0 and x < N and y >=0 and y < N;
 	           
-	           if(fit and x == TargetPos[0]-1 and y == TargetPos[1]-1){
-	               return move+1;
-	           }           
-	           else if(fit and !vis[x][y]){
+	                      
+	           if(fit and !vis[x][y]){
 	               q.push({{x,y},move+1});
 	               vis[x][y] = 1;
 	           }
