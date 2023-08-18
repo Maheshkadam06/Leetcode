@@ -12,24 +12,56 @@ class Solution
     {
         // Code here
         // priotity queue
-        vector<int> dist(V,INT_MAX);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
-        dist[src] = 0;
-        pq.push({0,src});
+        // vector<int> dist(V,INT_MAX);
+        // priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+        // dist[src] = 0;
+        // pq.push({0,src});
         
-        while(!pq.empty()){
-            int node = pq.top().second;
-            int dis = pq.top().first;
-            pq.pop();
+        // while(!pq.empty()){
+        //     int node = pq.top().second;
+        //     int dis = pq.top().first;
+        //     pq.pop();
             
-            for(auto it : adj[node]){
-                int adjNode = it[0];
-                int edgWt = it[1];
-                if(dist[node] + edgWt < dist[adjNode]){
-                    dist[adjNode] = dist[node] + edgWt;
-                    pq.push({dist[adjNode],adjNode});
+        //     for(auto it : adj[node]){
+        //         int adjNode = it[0];
+        //         int edgWt = it[1];
+        //         if(dist[node] + edgWt < dist[adjNode]){
+        //             dist[adjNode] = dist[node] + edgWt;
+        //             pq.push({dist[adjNode],adjNode});
+        //         }
+        //     }
+        // }
+        // return dist;
+        
+        
+        //  use set now
+        vector<int> dist(V,INT_MAX);
+        set<pair<int,int>> st;
+        //  set also store in asceding order
+        dist[src] = 0;
+        st.insert({0,src});
+        
+        while(!st.empty()){
+            // chose first element as it stored in ascending order
+            // just because set has erase function nothing different from pq
+            auto it = *(st.begin());
+            int node = it.second;
+            int dis =it.first;
+            st.erase({dis,node});
+            
+            for(auto i : adj[node]){
+                int adjNode = i[0];
+                int edgWt = i[1];
+                
+                if(dis+edgWt < dist[adjNode]){
+                    if(dist[adjNode] != INT_MAX){
+                        st.erase({dist[adjNode],adjNode});
+                    }
+                    dist[adjNode] = dis+edgWt;
+                    st.insert({dist[adjNode],adjNode});
                 }
             }
+            
         }
         return dist;
     }
