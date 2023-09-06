@@ -37,8 +37,10 @@ return 0;
 int search(int arr[], int n, int x, int k)
 {
     // Complete the function	
-    for(int i = 0; i < n;i++){
+    for(int i = 0; i < n;){
         if(arr[i] == x) return i;
+        
+        i +=max((abs(arr[i]-x))/k,1);
     }
     return -1;
 }    	
