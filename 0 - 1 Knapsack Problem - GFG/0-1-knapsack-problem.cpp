@@ -8,24 +8,22 @@ class Solution
 {
     public:
     //Function to return max value that can be put in knapsack of capacity W.
-    int dp[1001][1001];
     int knapSack(int W, int wt[], int val[], int n) 
     { 
-    //   // Your code here
-        memset(dp,-1,sizeof(dp));
-        return solve(0,W,wt,val,n);
-    
-    //   return 0;
-    }
-    int solve(int i, int W, int wt[], int val[], int n){
-        if(i >= n) return 0;
-        if(dp[i][W] != -1) return dp[i][W];
-        int mx = 0;
-        if(W >= wt[i]){
-            mx = solve(i+1,W-wt[i],wt,val,n)+val[i];
-        }
-        mx = max(mx,solve(i+1,W,wt,val,n));
-        return dp[i][W]= mx;
+       // Your code here
+       int last[2][W+1];
+       memset(last,0,sizeof(last));
+       
+       for(int i = 0; i<n;i++){
+           for(int j = 0; j<=W;j++){
+               if(j-wt[i]>=0){
+                   last[1][j] = last[0][j-wt[i]]+val[i];
+               }
+               last[1][j]= max(last[1][j],last[0][j]);
+           }
+           for(int k =0; k<=W;k++) last[0][k] = last[1][k];
+       }
+       return last[0][W];
     }
 };
 
