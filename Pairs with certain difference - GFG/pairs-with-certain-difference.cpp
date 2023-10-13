@@ -5,25 +5,23 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
     public:
-    int dp[10000];
     int maxSumPairWithDifferenceLessThanK(int arr[], int N, int K)
     {
-        // Your code goes here 
-        memset(dp,-1,sizeof(dp));
+        // Your code goes here
+        int prev2 = 0;
+        int prev = 0;
+        int curr = 0;
         sort(arr,arr+N);
-        return solve(0,N,K,arr);
-    }
-    
-    int solve(int i, int N, int K, int arr[]){
-        if(i >= N-1) return 0;
-        if(dp[i] != -1) return dp[i];
-        int picked = 0;
-        if(arr[i+1]-arr[i] <K){
-            picked = solve(i+2,N,K,arr) + arr[i]+arr[i+1];
+        for(int i = 1; i < N;i++){
+            curr = prev;
+            if(arr[i]-arr[i-1] <K){
+                curr = max(curr,prev2+arr[i]+arr[i-1]);
+            }
+            prev2 = prev;
+            prev =  curr;
         }
-        int ignored = solve(i+1,N,K,arr);
+        return curr;
         
-        return dp[i]= max(picked,ignored);
     }
 };
 
